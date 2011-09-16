@@ -37,6 +37,14 @@ class ProductTest < ActiveSupport::TestCase
                 :image_url    => image_url)
   end
   
+  # TODO: use optional method arguments to merge new_product_with_title and new_product
+  def new_product_with_title(title)
+    Product.new(:title        => title,
+                :description  => products(:ruby).description,
+                :price        => products(:ruby).price,
+                :image_url    => products(:ruby).image_url)
+  end
+  
   test "image url" do
     ok = %w{ fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg
       http://a.b.c/x/y/z/fred.gif }
@@ -60,5 +68,22 @@ class ProductTest < ActiveSupport::TestCase
     assert !product.save
     assert_equal I18n.translate('activerecord.errors.messages.taken'),
       product.errors[:title].join('; ')
+  end
+  
+  test "product title must be at least 10 characters" do
+    good_titles = %w{ 1234567890 }
+    bad_titles = %w{ 1 123456789 }
+
+    good_titles.each do |title|
+      assert new_product_with_title(title).valid?, "#{title} shouldn't be invalid"
+    end
+    
+    bad_titles.each do |title|
+      assert new_product_with_title(title).invalid?, "#{title} shouldn't be valid"
+    end
+    
+    #assert !product.save
+    #assert_equal I18n.translate('activerecord.errors.messages.short'),
+    #  product.errors[:title].join('; ')
   end
 end
