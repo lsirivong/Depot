@@ -4,6 +4,10 @@
 
 <h1>Your Pragmatic Catalog</h1>
 
+<% if @index_access_count > 5 %>
+  <p>You've looked at the index <%= pluralize(@index_access_count, "time") %></p>
+<% end %>
+
 <% @products.each do |product| %>
   <div class="entry">
     <%= link_to(image_tag(product.image_url),

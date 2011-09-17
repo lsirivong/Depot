@@ -43,6 +43,9 @@ class LineItemsController < ApplicationController
     @cart = current_cart
     product = Product.find(params[:product_id])
     @line_item = @cart.line_items.build(:product => product)
+    
+    # reset the index counter
+    session[:index_access_count] = 0
 
     respond_to do |format|
       if @line_item.save
