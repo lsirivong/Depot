@@ -2,16 +2,6 @@
   <h1>Listing products</h1>
 
   <table>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Image url</th>
-      <th>Price</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-
   <% @products.each do |product| %>
     <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
       <td>
