@@ -1,0 +1,5 @@
+$('#cart').hide('blind', 1000);
+
+//$('#cart tr').not(".total_line").remove();
+
+$('#cart').html("<%= escape_javascript(render(@cart)) %>");
