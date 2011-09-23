@@ -84,11 +84,22 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1.json
   def destroy
     @line_item = LineItem.find(params[:id])
-    @line_item.destroy
+    @line_item.quantity -= 1
+    if @line_item.quantity <= 0
+      was_success = @line_item.destroy
+      @line_item = nil
+    else
+      was_success = @line_item.save
+    end
 
-    respond_to do |format|
-      format.html { redirect_to(line_items_url) }
-      format.json { head :ok }
+    if was_success
+      respond_to do |format|
+        format.html { redirect_to(store_url) }
+        format.json { head :ok }
+      end
+    else
+      format.html { render action: "delete" }
+      format.json { render json: @line_item.errors, status: :unprocessable_entity }
     end
   end
 end
