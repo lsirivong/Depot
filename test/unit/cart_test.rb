@@ -25,16 +25,20 @@ class CartTest < ActiveSupport::TestCase
     assert_equal 1, cart.line_items.count
   end
   
-  test "duplicate items should increment quantity" do
+  test "duplicate items should increment line_item quantity" do
     cart = Cart.new
     
-    cart.add_product(products(:ruby).id)
+    cart.add_product(products(:html).id)
     assert cart.save
     
-    line_item = cart.add_product(products(:ruby).id)
+    line_item = cart.add_product(products(:html).id)
+    # this doesn't feel right, the first add_product will create and save
+    # the line item, but the second one will modify but won't save the change
+    # must save the returned line_item to work correctly
+    assert line_item.save
     assert cart.save
     
-    assert_equal 2, line_item.quantity
     assert_equal 1, cart.line_items.count
+    assert_equal 2, cart.total_items
   end
 end

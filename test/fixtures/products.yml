@@ -21,4 +21,12 @@ ruby:
     delivered fast, you should add Ruby to your toolbox.
   price:       49.50
   image_url:   ruby.png
-  
+
+html:
+  title:       HTML book title
+  description:
+    Html description text about the book. Lorem ipsum dolar
+    sit amet.
+  price:       22.95
+  image_url:   html.jpg
+
