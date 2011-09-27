@@ -1,4 +1,12 @@
 class OrdersController < ApplicationController
+  def get_type_names
+    type_names = []
+    PaymentType.all.each do |type|
+      type_names << type.name
+    end
+    type_names
+  end
+  
   # GET /orders
   # GET /orders.json
   def index
@@ -26,6 +34,8 @@ class OrdersController < ApplicationController
   # GET /orders/new.json
   def new
     @cart = current_cart
+    @type_names = get_type_names
+    
     if @cart.line_items.empty?
       redirect_to store_url, :notice => "Your cart is empty"
       return
@@ -42,6 +52,7 @@ class OrdersController < ApplicationController
   # GET /orders/1/edit
   def edit
     @order = Order.find(params[:id])
+    @type_names = get_type_names
   end
 
   # POST /orders
