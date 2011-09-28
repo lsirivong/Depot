@@ -1,10 +1,6 @@
 class OrdersController < ApplicationController
   def get_type_names
-    type_names = []
-    PaymentType.all.each do |type|
-      type_names << type.name
-    end
-    type_names
+    PaymentType.names
   end
   
   # GET /orders
@@ -59,6 +55,7 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(params[:order])
+    @type_names = get_type_names
     @order.add_line_items_from_cart(current_cart)
 
     respond_to do |format|
@@ -79,6 +76,7 @@ class OrdersController < ApplicationController
   # PUT /orders/1.json
   def update
     @order = Order.find(params[:id])
+    @type_names = get_type_names
 
     respond_to do |format|
       if @order.update_attributes(params[:order])
