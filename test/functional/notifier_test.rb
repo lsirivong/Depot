@@ -17,5 +17,13 @@ class NotifierTest < ActionMailer::TestCase
     assert_match /<td>1&times;<\/td>\s*<td>Programming Ruby 1.9<\/td>/,
       mail.body.encoded
   end
+  
+  test "error_occurred" do
+    mail = Notifier.error_occurred("Error message")
+    assert_equal "Admin Notification: Pragmatic Store Error Occurred", mail.subject
+    assert_equal ["depot_admin@example.com"], mail.to
+    assert_equal ["depot@example.com"], mail.from
+    assert_match /Error message/, mail.body.encoded
+  end
 
 end
