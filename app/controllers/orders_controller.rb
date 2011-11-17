@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  skip_before_filter :authorize, :only => [:new, :create]
+  
   def get_type_names
     PaymentType.names
   end
