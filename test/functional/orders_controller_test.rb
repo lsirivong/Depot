@@ -28,6 +28,16 @@ class OrdersControllerTest < ActionController::TestCase
 
     assert_redirected_to store_path
   end
+  
+  test "should email on create" do
+    ActionMailer::Base.deliveries = []
+    
+    post :create, order: @order.attributes
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal "Pragmatic Store Order Confirmation", mail.subject
+  end
 
   test "should show order" do
     get :show, id: @order.to_param
@@ -42,6 +52,20 @@ class OrdersControllerTest < ActionController::TestCase
   test "should update order" do
     put :update, id: @order.to_param, order: @order.attributes
     assert_redirected_to order_path(assigns(:order))
+  end
+  
+  test "should email on update" do
+    ActionMailer::Base.deliveries = []
+    
+    order = @order
+    order.ship_date = DateTime.now
+
+    
+    put :update, id: order.to_param, order: order.attributes
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal "Pragmatic Store Order Shipped", mail.subject
   end
 
   test "should destroy order" do

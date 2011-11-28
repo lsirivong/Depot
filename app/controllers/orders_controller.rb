@@ -84,9 +84,9 @@ class OrdersController < ApplicationController
     respond_to do |format|
       old_ship_date = @order.ship_date
       if @order.update_attributes(params[:order])
-        if ((!@order.ship_date.nil?) && (old_ship_date != @order.ship_date))
+        # if ((!@order.ship_date.nil?) && (old_ship_date != @order.ship_date))
           Notifier.order_shipped(@order).deliver
-        end
+        # end
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { head :ok }
       else
