@@ -20,6 +20,13 @@ class SessionsControllerTest < ActionController::TestCase
     assert_redirected_to login_url
   end
   
+  test "should login if no users exist" do
+    User.delete_all
+    post :create, :name => 'fake_user', :password => 'doesnotmatter'
+    
+    assert_redirected_to admin_url
+  end
+  
   test "should logout" do
     delete :destroy
     assert_redirected_to store_url

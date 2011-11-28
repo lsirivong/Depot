@@ -5,4 +5,8 @@ module ApplicationHelper
     end
     content_tag("div", attributes, &block)
   end
+  
+  def user_logged_in?
+    !session[:user_id].nil?
+  end
 end

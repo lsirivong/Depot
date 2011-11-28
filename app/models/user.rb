@@ -22,6 +22,12 @@ class User < ActiveRecord::Base
       if user.hashed_password == encrypt_password(password, user.salt)
         user
       end
+    else
+      if User.all.empty?
+        user = User.new
+        user.id = 0
+        user
+      end
     end
   end
   

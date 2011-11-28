@@ -136,19 +136,18 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
   #   assert_equal 'Sam Ruby <depot@example.com>', mail[:from].value
   #   assert_equal "Admin Notification: Pragmatic Store Error Occurred", mail.subject
   # end
-  # 
-  # test "login when no users exist" do
-  #   User.delete_all
-  #   
-  #   assert_equal 0, User.all.count
-  #   
-  #   get "/login"
-  #   assert_response :success
-  #   
-  #   post_via_redirect "/users",
-  #     :user => { :name => "newuser", :password => "anything" }
-  #   assert_response :success
-  #   
-  #   assert_equal 1, User.all.count
-  # end
+  
+  test "login when no users exist" do    
+    User.delete_all
+    assert User.all.empty?
+    
+    get "/login"
+    assert_response :success
+    
+    post_via_redirect "/login",
+      :user => { :name => "doesnotexistent", :password => "anything" }
+    assert_response :success
+    
+    assert_equal "/admin", path
+  end
 end
